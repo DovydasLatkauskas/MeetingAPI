@@ -2,14 +2,12 @@ package com.visma.meetingAPI.controllers;
 
 import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
-import com.visma.meetingAPI.repositories.MeetingRepository;
 import com.visma.meetingAPI.repositories.PersonRepository;
 import com.visma.meetingAPI.services.MeetingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -66,9 +64,11 @@ public class MeetingControllerImpl implements MeetingController {
     @PostMapping("/{meetingId}/add-attendee/{attendeeId}")
     public ResponseEntity<String> addAttendee(@PathVariable String meetingId, @PathVariable String attendeeId) {
         Meeting meeting = meetingService.findMeetingById(meetingId);
-        Person attendee = personRepository.findById(attendeeId);
-
-        if (meeting == null) {
+        if(meeting == null){
+            return ResponseEntity.notFound().build();
+        }
+        Person attendee = personRepository.findPersonById(attendeeId);
+        if(attendee == null){
             return ResponseEntity.notFound().build();
         }
 
@@ -80,8 +80,7 @@ public class MeetingControllerImpl implements MeetingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Attendee is already in a conflicting meeting.");
         }
 
-        meeting.addAttendee(attendee);
-        meetingService.updateMeeting(meeting);
+        meetingService.addAttendee(attendee, meetingId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -91,6 +90,9 @@ public class MeetingControllerImpl implements MeetingController {
         Meeting meeting = meetingService.findMeetingById(meetingId);
 
         if (meeting == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if(personRepository.findPersonById(attendeeId) == null){
             return ResponseEntity.notFound().build();
         }
 

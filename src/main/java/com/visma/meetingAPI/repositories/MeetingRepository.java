@@ -1,6 +1,7 @@
 package com.visma.meetingAPI.repositories;
 
 import com.visma.meetingAPI.models.Meeting;
+import com.visma.meetingAPI.models.Person;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface MeetingRepository {
 
     boolean deleteMeeting(String meetingId);
 
-    void updateMeeting(Meeting meeting);
-
     boolean removeAttendee(String attendeeId, String meetingId);
+
+    void addAttendee(Person attendee, String meetingId);
 }

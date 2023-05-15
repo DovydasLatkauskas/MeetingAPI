@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PersonRepositoryJSON implements PersonRepository{
     @Override
-    public Person findById(String attendeeId) {
+    public Person findPersonById(String attendeeId) {
         // TODO implement
         return null;
     }

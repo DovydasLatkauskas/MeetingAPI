@@ -15,8 +15,6 @@ public interface MeetingService {
 
     boolean deleteMeeting(String meetingId);
 
-    void updateMeeting(Meeting meeting);
-
     List<Meeting> getFilteredMeetings(String description, String responsiblePersonName, String category,
                                       String type, LocalDateTime startDate, LocalDateTime endDate,
                                       Integer minAttendees, Integer maxAttendees);
@@ -24,4 +22,6 @@ public interface MeetingService {
     boolean removeAttendee(String attendeeId, String meetingId);
 
     boolean isAttendeeInIntersectingMeeting(Person attendee, Meeting meeting);
+
+    void addAttendee(Person attendee, String meetingId);
 }

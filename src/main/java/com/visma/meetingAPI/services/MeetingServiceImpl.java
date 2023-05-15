@@ -42,10 +42,6 @@ public class MeetingServiceImpl implements MeetingService{
         return meetingRepository.deleteMeeting(meetingId);
     }
 
-    @Override
-    public void updateMeeting(Meeting meeting) {
-        meetingRepository.updateMeeting(meeting);
-    }
     // includes meetings that are in progress at the start date and haven't finished by the end date
     public List<Meeting> getFilteredMeetings(String description, String responsiblePersonName, String category,
                                              String type, LocalDateTime startDate, LocalDateTime endDate,
@@ -95,6 +91,10 @@ public class MeetingServiceImpl implements MeetingService{
         return filteredMeetings;
     }
 
+    @Override
+    public void addAttendee(Person attendee, String meetingId) {
+        meetingRepository.addAttendee(attendee, meetingId);
+    }
     @Override
     public boolean removeAttendee(String attendeeId, String meetingId) {
         return meetingRepository.removeAttendee(attendeeId, meetingId);

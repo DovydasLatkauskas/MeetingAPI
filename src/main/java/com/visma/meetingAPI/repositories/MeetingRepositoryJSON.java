@@ -3,6 +3,7 @@ package com.visma.meetingAPI.repositories;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visma.meetingAPI.models.Meeting;
+import com.visma.meetingAPI.models.Person;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -34,7 +35,13 @@ public class MeetingRepositoryJSON implements MeetingRepository {
     @Override
     public void save(Meeting meeting) {
         List<Meeting> meetings = getMeetings();
-        meetings.add(meeting);
+        Meeting meetingInDatabase = findMeetingById(meeting.getId());
+        if(meetingInDatabase == null){ // if it doesn't exist, add it
+            meetings.add(meeting);
+        } else { // if it exists then replace it with the new one
+            meetings.remove(meetingInDatabase);
+            meetings.add(meeting);
+        }
         saveMeetingListAsJson(meetings, FILE_PATH);
     }
 
@@ -77,7 +84,33 @@ public class MeetingRepositoryJSON implements MeetingRepository {
     }
 
     @Override
-    public void updateMeeting(Meeting meeting) {
-        // TODO implement
+    public void addAttendee(Person attendee, String meetingId) {
+        Meeting meeting = findMeetingById(meetingId);
+        if (meeting != null) {
+            List<Person> attendees = meeting.getAttendees();
+            attendees.add(attendee);
+            save(meeting);
+        }
+    }
+
+    @Override
+    public boolean removeAttendee(String attendeeId, String meetingId) {
+        Meeting meeting = findMeetingById(meetingId);
+        if (meeting != null) {
+            List<Person> attendees = meeting.getAttendees();
+            Person attendeeToRemove = null;
+            for (Person attendee : attendees) {
+                if (attendee.getId().equals(attendeeId)) {
+                    attendeeToRemove = attendee;
+                    break;
+                }
+            }
+            if (attendeeToRemove != null) {
+                attendees.remove(attendeeToRemove);
+                saveMeetingListAsJson(getMeetings(), FILE_PATH);
+                return true; // Attendee removed successfully
+            }
+        }
+        return false; // Meeting not found or attendee not found
     }
 }
