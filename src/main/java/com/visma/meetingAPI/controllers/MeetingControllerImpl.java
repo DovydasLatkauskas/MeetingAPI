@@ -54,6 +54,7 @@ public class MeetingControllerImpl implements MeetingController {
     @PostMapping("/{meetingId}/add-attendee/{attendeeId}")
     public ResponseEntity<String> addAttendee(@PathVariable String meetingId, @PathVariable String attendeeId) {
         Meeting meeting = meetingService.findMeetingById(meetingId);
+        Person attendee = meeting.getAttendeeById(attendeeId);
 
         if (meeting == null) {
             return ResponseEntity.notFound().build();
