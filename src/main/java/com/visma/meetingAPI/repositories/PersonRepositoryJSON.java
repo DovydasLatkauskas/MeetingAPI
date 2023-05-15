@@ -55,6 +55,15 @@ public class PersonRepositoryJSON implements PersonRepository{
         savePersonListAsJson(people, FILE_PATH);
     }
 
+    private void savePersonListAsJson(List<Person> personList, String filePath) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(new File(filePath), personList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean removePerson(String personId) {
         List<Person> persons = getPeople();
