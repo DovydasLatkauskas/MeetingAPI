@@ -51,8 +51,8 @@ public class MeetingControllerImpl implements MeetingController {
     }
 
     @Override
-    @PostMapping("/{meetingId}/add-attendee")
-    public ResponseEntity<String> addAttendee(@PathVariable String meetingId, @RequestBody Person attendee) {
+    @PostMapping("/{meetingId}/add-attendee/{attendeeId}")
+    public ResponseEntity<String> addAttendee(@PathVariable String meetingId, @PathVariable String attendeeId) {
         Meeting meeting = meetingService.findMeetingById(meetingId);
 
         if (meeting == null) {

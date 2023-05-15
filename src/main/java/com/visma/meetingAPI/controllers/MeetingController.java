@@ -13,8 +13,8 @@ public interface MeetingController {
 
     ResponseEntity<String> deleteMeeting(String meetingId);
 
-    ResponseEntity<String> addAttendee(String meetingId, Person attendee);
-    ResponseEntity<String> removeAttendee(String meetingId, Person attendee);
+    ResponseEntity<String> addAttendee(String meetingId, String attendeeId);
+    ResponseEntity<String> removeAttendee(String meetingId, String attendeeId);
     ResponseEntity<List<Meeting>> getMeetings(
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String responsiblePerson,
