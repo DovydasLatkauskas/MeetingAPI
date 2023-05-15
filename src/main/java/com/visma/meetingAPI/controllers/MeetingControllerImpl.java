@@ -100,7 +100,7 @@ public class MeetingControllerImpl implements MeetingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The responsible person cannot be removed from the meeting.");
         }
 
-        if (meetingService.removeAttendee(attendeeId)) {
+        if (meetingService.removeAttendee(attendeeId, meetingId)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Attendee not found in the meeting.");

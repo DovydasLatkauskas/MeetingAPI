@@ -96,8 +96,8 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public boolean removeAttendee(String attendeeId) {
-        return meetingRepository.deleteMeeting(attendeeId);
+    public boolean removeAttendee(String attendeeId, String meetingId) {
+        return meetingRepository.removeAttendee(attendeeId, meetingId);
     }
 
     @Override

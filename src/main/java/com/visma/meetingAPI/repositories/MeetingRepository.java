@@ -14,4 +14,6 @@ public interface MeetingRepository {
     boolean deleteMeeting(String meetingId);
 
     void updateMeeting(Meeting meeting);
+
+    boolean removeAttendee(String attendeeId, String meetingId);
 }

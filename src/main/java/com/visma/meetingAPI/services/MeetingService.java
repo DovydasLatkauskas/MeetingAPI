@@ -21,7 +21,7 @@ public interface MeetingService {
                                       String type, LocalDateTime startDate, LocalDateTime endDate,
                                       Integer minAttendees, Integer maxAttendees);
 
-    boolean removeAttendee(String attendeeId);
+    boolean removeAttendee(String attendeeId, String meetingId);
 
     boolean isAttendeeInIntersectingMeeting(Person attendee, Meeting meeting);
 }
