@@ -2,14 +2,21 @@ package com.visma.meetingAPI.services;
 
 import com.visma.meetingAPI.models.Meeting;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface MeetingService {
-    public Meeting save(Meeting meeting);
+    Meeting save(Meeting meeting);
 
     Meeting findMeetingById(String meetingId);
 
-    void remove(String meetingId);
+    boolean deleteMeeting(String meetingId);
 
     void updateMeeting(Meeting meeting);
+
+    List<Meeting> getFilteredMeetings(String description, String responsiblePerson, String category,
+                                      String type, LocalDateTime startDate, LocalDateTime endDate,
+                                      Integer minAttendees, Integer maxAttendees);
+
+    boolean removeAttendee(String attendeeId);
 }

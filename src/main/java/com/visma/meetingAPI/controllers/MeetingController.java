@@ -2,63 +2,27 @@ package com.visma.meetingAPI.controllers;
 
 import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
-import com.visma.meetingAPI.services.MeetingService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
-public class MeetingController {
-     private final MeetingService meetingService;
-     public MeetingController(MeetingService meetingService) {
-            this.meetingService = meetingService;
-     }
+import java.time.LocalDateTime;
+import java.util.List;
 
-    @GetMapping("/")
-    public String hello(){
-        return "Hello world!";
-    }
+public interface MeetingController {
+    ResponseEntity<String> createMeeting(Meeting meeting);
 
-    @PostMapping("/create-meeting")
-    public ResponseEntity<String> createMeeting(@RequestBody Meeting meeting){
-        meeting = meetingService.save(meeting);
-        return ResponseEntity.status(HttpStatus.CREATED).body(meeting.toString());
-    }
+    ResponseEntity<String> deleteMeeting(String meetingId);
 
-    @DeleteMapping("/delete-meeting")
-    public ResponseEntity<String> deleteMeeting(@RequestBody String meetingId) {
-        Meeting meeting = meetingService.findMeetingById(meetingId);
-
-        if (meeting == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (!isAuthorized(meeting)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        meetingService.remove(meetingId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{meetingId}/attendees")
-    public ResponseEntity<String> addAttendee(@PathVariable String meetingId, @RequestBody Person attendee) {
-        Meeting meeting = meetingService.findMeetingById(meetingId);
-
-        if (meeting == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (meeting.getAttendees().contains(attendee)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Attendee is already added to the meeting.");
-        }
-
-        if (meetingService.isAttendeeInIntersectingMeeting(attendee, meeting)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Attendee is already in a conflicting meeting.");
-        }
-
-        meeting.addAttendee(attendee);
-        meetingService.updateMeeting(meeting);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+    ResponseEntity<String> addAttendee(String meetingId, Person attendee);
+    ResponseEntity<String> removeAttendee(String meetingId, Person attendee);
+    ResponseEntity<List<Meeting>> getMeetings(
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String responsiblePerson,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
+            @RequestParam(required = false) Integer minAttendees,
+            @RequestParam(required = false) Integer maxAttendees
+    );
 }

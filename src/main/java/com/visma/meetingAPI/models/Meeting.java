@@ -1,11 +1,13 @@
 package com.visma.meetingAPI.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Meeting {
     private String id; // UUID
     private String name;
     private Person responsiblePerson;
+    private List<Person> attendees;
     private String description;
     private MeetingCategory category;
     private MeetingType meetingType;
