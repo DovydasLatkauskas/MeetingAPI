@@ -1,6 +1,10 @@
 package com.visma.meetingAPI.services;
 
 import com.visma.meetingAPI.models.Meeting;
+import com.visma.meetingAPI.models.MeetingCategory;
+import com.visma.meetingAPI.models.MeetingType;
+import com.visma.meetingAPI.models.Person;
+import com.visma.meetingAPI.repositories.MeetingRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,8 +21,9 @@ public class MeetingServiceImpl implements MeetingService{
 
     @Override
     public Meeting save(Meeting meeting) {
-        // TODO implement
-        return null;
+        meeting.setId(generateMeetingId());
+        meetingRepository.save(meeting);
+        return meeting;
     }
 
     private String generateMeetingId() {
@@ -29,22 +34,20 @@ public class MeetingServiceImpl implements MeetingService{
 
     @Override
     public Meeting findMeetingById(String meetingId) {
-        // TODO implement
-        return null;
+        return meetingRepository.findMeetingById(meetingId);
     }
 
     @Override
     public boolean deleteMeeting(String meetingId) {
-        // TODO implement
-        return false;
+        return meetingRepository.deleteMeeting(meetingId);
     }
 
     @Override
     public void updateMeeting(Meeting meeting) {
-        // TODO implement
+        meetingRepository.updateMeeting(meeting);
     }
-
-    public List<Meeting> getFilteredMeetings(String description, String responsiblePerson, String category,
+    // includes meetings that are in progress at the start date and haven't finished by the end date
+    public List<Meeting> getFilteredMeetings(String description, String responsiblePersonName, String category,
                                              String type, LocalDateTime startDate, LocalDateTime endDate,
                                              Integer minAttendees, Integer maxAttendees) {
         List<Meeting> meetings = meetingRepository.getMeetings();
@@ -56,23 +59,24 @@ public class MeetingServiceImpl implements MeetingService{
                 continue; // Skip if description filter doesn't match
             }
 
-            if (responsiblePerson != null && !meeting.getResponsiblePerson().equals(responsiblePerson)) {
+            if (responsiblePersonName != null && !meeting.getResponsiblePerson().getName().contains(responsiblePersonName)) {
                 continue;
             }
 
-            if (category != null && !meeting.getCategory().equals(category)) {
+            if (category != null && !meeting.getCategory().getValue().contains(category)) {
                 continue;
             }
 
-            if (type != null && !meeting.getType().equals(type)) {
+            if (type != null && !meeting.getType().getValue().contains(type)) {
                 continue;
             }
 
-            if (startDate != null && meeting.getDate().isBefore(startDate)) {
+            // this includes meetings that are in progress at the start date
+            if (startDate != null && meeting.getEndDate().isBefore(startDate)) {
                 continue;
             }
-
-            if (endDate != null && meeting.getDate().isAfter(endDate)) {
+            // this includes meetings that are do not finish before the end date
+            if (endDate != null && meeting.getStartDate().isAfter(endDate)) {
                 continue;
             }
 
@@ -89,5 +93,25 @@ public class MeetingServiceImpl implements MeetingService{
         }
 
         return filteredMeetings;
+    }
+
+    @Override
+    public boolean removeAttendee(String attendeeId) {
+        return meetingRepository.deleteMeeting(attendeeId);
+    }
+
+    @Override
+    public boolean isAttendeeInIntersectingMeeting(Person attendee, Meeting meeting) {
+        List<Meeting> intersectingMeetings = getFilteredMeetings(
+                null, null, null, null,
+                meeting.getStartDate(), meeting.getEndDate(),
+                null, null
+        );
+        for (Meeting intersectingMeeting : intersectingMeetings) {
+            if (intersectingMeeting.getAttendees().contains(attendee)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
