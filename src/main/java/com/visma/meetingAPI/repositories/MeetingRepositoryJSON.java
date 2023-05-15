@@ -107,7 +107,7 @@ public class MeetingRepositoryJSON implements MeetingRepository {
             }
             if (attendeeToRemove != null) {
                 attendees.remove(attendeeToRemove);
-                saveMeetingListAsJson(getMeetings(), FILE_PATH);
+                save(meeting);
                 return true; // Attendee removed successfully
             }
         }
