@@ -2,6 +2,7 @@ package com.visma.meetingAPI.controllers;
 
 import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public interface MeetingController {
     ResponseEntity<String> createMeeting(Meeting meeting);
 
-    ResponseEntity<String> deleteMeeting(String meetingId);
+    ResponseEntity<String> deleteMeeting(String meetingId, HttpServletRequest request);
 
     ResponseEntity<String> addAttendee(String meetingId, String attendeeId);
     ResponseEntity<String> removeAttendee(String meetingId, String attendeeId);
