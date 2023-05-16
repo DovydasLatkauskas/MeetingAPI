@@ -1,4 +1,4 @@
-# Meeting Management Application
+# Meeting Management API
 
 This is a web application built with Java Spring Boot to manage internal meetings.
 
