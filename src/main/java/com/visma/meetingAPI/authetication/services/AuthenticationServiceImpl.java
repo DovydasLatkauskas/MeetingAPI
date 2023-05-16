@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                 .password(passwordEncoder.encode(request.getPassword())).build();
         personRepository.save(person);
         String jwtToken = jwtService.generateToken(person);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder().token(jwtToken).id(person.getId()).build();
     }
 
     @Override

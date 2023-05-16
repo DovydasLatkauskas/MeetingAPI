@@ -20,8 +20,8 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/**")
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // TODO change requestMatchers("/**")
+        http.csrf().disable().authorizeHttpRequests().requestMatchers("/**")
                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authenticationProvider(authenticationProvider)
