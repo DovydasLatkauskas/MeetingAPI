@@ -1,15 +1,19 @@
 package com.visma.meetingAPI.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class Meeting {
     private String id; // UUID
     private String name;
+    @JsonDeserialize(using = PersonDeserializer.class)
     private Person responsiblePerson;
+    @JsonDeserialize(using = PersonListDeserializer.class)
     private List<Person> attendees;
     private String description;
     private MeetingCategory category;
@@ -19,6 +23,7 @@ public class Meeting {
 
     public Meeting(String name, Person responsiblePerson, List<Person> attendees, String description, MeetingCategory category,
                    MeetingType type, LocalDateTime startDate, LocalDateTime endDate) {
+        this.id = generateId();
         this.name = name;
         this.responsiblePerson = responsiblePerson;
         this.attendees = attendees;
@@ -27,6 +32,9 @@ public class Meeting {
         this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+    public static String generateId() {
+        return UUID.randomUUID().toString();
     }
     @Override
     public String toString() {

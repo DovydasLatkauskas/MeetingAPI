@@ -50,9 +50,8 @@ public class MeetingControllerImpl implements MeetingController {
 
         if (meetingService.deleteMeeting(meetingId)) {
             return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting not found.");
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting not found.");
     }
     // TODO create authentication and authorization
 
@@ -104,9 +103,8 @@ public class MeetingControllerImpl implements MeetingController {
 
         if (meetingService.removeAttendee(attendeeId, meetingId)) {
             return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Attendee not found in the meeting.");
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Attendee not found in the meeting.");
     }
 
     // we get all meetings and filter our those meeting that do not match the (optional) filters

@@ -12,17 +12,16 @@ import java.util.List;
 
 @Repository
 public class PersonRepositoryJSON implements PersonRepository{
-    private final String DEFAULT_FILE_PATH = "JSON_database/people.json";
-    private final String filePath;
 
-    public PersonRepositoryJSON() {
-        this.filePath = DEFAULT_FILE_PATH;
-        initializeJSON(this.filePath);
-    }
+    private final String filePath;
 
     public PersonRepositoryJSON(String filePath) {
         this.filePath = filePath;
         initializeJSON(filePath);
+    }
+
+    public PersonRepositoryJSON() { // default filepath to database
+        this("JSON_database/people.json");
     }
 
     @Override

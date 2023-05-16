@@ -10,16 +10,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import static com.visma.meetingAPI.repositories.PersonRepositoryJSON.initializeJSON;
 
 @Repository
 public class MeetingRepositoryJSON implements MeetingRepository {
-    private final String FILE_PATH = "JSON_database/meetings.json";
+    private final String filePath;
+
+    public MeetingRepositoryJSON(String filePath) {
+        this.filePath = filePath;
+        initializeJSON(filePath);
+    }
+
+    public MeetingRepositoryJSON() { // default filepath to database
+        this("JSON_database/meetings.json");
+    }
     @Override
     public List<Meeting> getMeetings() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             if (file.exists()) {
                 // due to Java's type erasure, simply passing List<Meeting>.class would not work.
                 // Instead, you create an anonymous subclass of TypeReference<List<Meeting>>
@@ -42,7 +52,7 @@ public class MeetingRepositoryJSON implements MeetingRepository {
             meetings.remove(meetingInDatabase);
             meetings.add(meeting);
         }
-        saveMeetingListAsJson(meetings, FILE_PATH);
+        saveMeetingListAsJson(meetings, filePath);
     }
 
     private void saveMeetingListAsJson(List<Meeting> meetingList, String filePath) {
@@ -77,7 +87,7 @@ public class MeetingRepositoryJSON implements MeetingRepository {
         }
         if (meetingToRemove != null) {
             meetings.remove(meetingToRemove);
-            saveMeetingListAsJson(meetings, FILE_PATH);
+            saveMeetingListAsJson(meetings, filePath);
             return true;
         }
         return false; // Meeting not found

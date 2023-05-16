@@ -23,6 +23,10 @@ public class Person implements UserDetails {
     private String password;
     private List<Meeting> meetings;
 
+    public Person(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return this.getName();
