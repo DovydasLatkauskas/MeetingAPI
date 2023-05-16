@@ -7,13 +7,15 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.visma.meetingAPI.repositories.PersonRepository;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class PersonListDeserializer extends JsonDeserializer<List<Person>> {
-    private final PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     public PersonListDeserializer(PersonRepository personRepository) {
         this.personRepository = personRepository;

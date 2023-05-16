@@ -2,6 +2,7 @@ package com.visma.meetingAPI.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
 import org.springframework.stereotype.Repository;
@@ -58,6 +59,7 @@ public class MeetingRepositoryJSON implements MeetingRepository {
     private void saveMeetingListAsJson(List<Meeting> meetingList, String filePath) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
             objectMapper.writeValue(new File(filePath), meetingList);
         } catch (IOException e) {
             e.printStackTrace();

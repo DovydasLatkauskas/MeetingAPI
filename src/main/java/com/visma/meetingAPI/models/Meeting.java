@@ -2,12 +2,14 @@ package com.visma.meetingAPI.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class Meeting {
     private String id; // UUID
     private String name;

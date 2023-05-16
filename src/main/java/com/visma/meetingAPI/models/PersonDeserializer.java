@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visma.meetingAPI.repositories.PersonRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-
+@NoArgsConstructor
 public class PersonDeserializer extends JsonDeserializer<Person> {
     private PersonRepository personRepository;
     public PersonDeserializer(PersonRepository personRepository) {
