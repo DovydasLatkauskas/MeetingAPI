@@ -33,6 +33,6 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                 request.getId(), request.getPassword()));
         Person person = personRepository.findPersonById(request.getId());
         String jwtToken = jwtService.generateToken(person);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder().token(jwtToken).id(person.getId()).build();
     }
 }

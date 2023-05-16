@@ -2,7 +2,6 @@ package com.visma.meetingAPI.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +17,12 @@ public class PersonRepositoryJSON implements PersonRepository{
 
     public PersonRepositoryJSON() {
         this.filePath = DEFAULT_FILE_PATH;
+        initializeJSON(this.filePath);
     }
 
     public PersonRepositoryJSON(String filePath) {
         this.filePath = filePath;
+        initializeJSON(filePath);
     }
 
     @Override
@@ -90,5 +91,25 @@ public class PersonRepositoryJSON implements PersonRepository{
             return true;
         }
         return false; // Person not found
+    }
+
+    public static void initializeJSON(String filePath) {
+        File file = new File(filePath);
+
+        // Create parent directories if they don't exist
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        // Create empty JSON file if it doesn't exist
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                System.out.println("Empty JSON file created: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                System.err.println("Failed to create empty JSON file: " + e.getMessage());
+            }
+        }
     }
 }
