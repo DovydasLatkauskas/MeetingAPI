@@ -22,7 +22,7 @@ public class PersonListDeserializer extends JsonDeserializer<List<Person>> {
     }
 
     @Override
-    public List<Person> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public List<Person> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
 

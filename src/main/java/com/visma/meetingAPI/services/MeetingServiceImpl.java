@@ -1,8 +1,6 @@
 package com.visma.meetingAPI.services;
 
 import com.visma.meetingAPI.models.Meeting;
-import com.visma.meetingAPI.models.MeetingCategory;
-import com.visma.meetingAPI.models.MeetingType;
 import com.visma.meetingAPI.models.Person;
 import com.visma.meetingAPI.repositories.MeetingRepository;
 import org.springframework.stereotype.Service;

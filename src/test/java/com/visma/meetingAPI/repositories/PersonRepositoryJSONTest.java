@@ -4,7 +4,6 @@ import com.visma.meetingAPI.models.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,5 @@
 package com.visma.meetingAPI.repositories;
 
-import com.visma.meetingAPI.models.Meeting;
 import com.visma.meetingAPI.models.Person;
 
 import java.util.List;

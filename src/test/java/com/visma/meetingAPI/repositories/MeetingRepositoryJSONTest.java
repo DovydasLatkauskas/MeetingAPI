@@ -7,7 +7,6 @@ import com.visma.meetingAPI.repositories.MeetingRepositoryJSON;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ class MeetingRepositoryJSONTest {
         meetingRepository = new MeetingRepositoryJSON(testFilePath);
     }
 
-    String startDateString = "2023-05-17T09:00:00Z";
-    DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-    LocalDateTime startDate = LocalDateTime.parse(startDateString, formatter);
-    String endDateString = "2023-05-17T09:00:00Z";
-    LocalDateTime endDate = LocalDateTime.parse(endDateString, formatter);
+    final String startDateString = "2023-05-17T09:00:00Z";
+    final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+    final LocalDateTime startDate = LocalDateTime.parse(startDateString, formatter);
+    final String endDateString = "2023-05-17T09:00:00Z";
+    final LocalDateTime endDate = LocalDateTime.parse(endDateString, formatter);
 
     @Test
     void saveAndFindMeetingById() {
