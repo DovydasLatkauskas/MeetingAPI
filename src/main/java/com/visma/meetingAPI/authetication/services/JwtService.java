@@ -1,4 +1,4 @@
-package com.visma.meetingAPI.authetication;
+package com.visma.meetingAPI.authetication.services;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.visma.meetingAPI.authetication;
+package com.visma.meetingAPI.authetication.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

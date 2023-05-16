@@ -1,5 +1,6 @@
-package com.visma.meetingAPI.authetication;
+package com.visma.meetingAPI.authetication.config;
 
+import com.visma.meetingAPI.authetication.JwtAuthenticationFilter;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests().requestMatchers("")
+        http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/**")
                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authenticationProvider(authenticationProvider)

@@ -1,4 +1,4 @@
-package com.visma.meetingAPI.authetication;
+package com.visma.meetingAPI.authetication.config;
 
 import com.visma.meetingAPI.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;

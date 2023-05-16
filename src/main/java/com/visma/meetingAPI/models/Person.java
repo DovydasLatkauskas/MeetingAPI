@@ -1,11 +1,20 @@
 package com.visma.meetingAPI.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person implements UserDetails {
     private String id;
     private String name;
@@ -15,6 +24,10 @@ public class Person implements UserDetails {
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    public static String generateId() {
+        return UUID.randomUUID().toString();
     }
 
     public String getId() {

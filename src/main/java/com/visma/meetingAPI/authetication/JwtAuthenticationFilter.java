@@ -1,5 +1,6 @@
 package com.visma.meetingAPI.authetication;
 
+import com.visma.meetingAPI.authetication.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
