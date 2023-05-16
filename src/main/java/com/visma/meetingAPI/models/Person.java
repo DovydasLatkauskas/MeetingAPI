@@ -1,5 +1,6 @@
 package com.visma.meetingAPI.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"enabled", "username", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 public class Person implements UserDetails {
     private String id;
     private String name;

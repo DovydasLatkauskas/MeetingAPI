@@ -1,8 +1,11 @@
 package com.visma.meetingAPI.models;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 public class Meeting {
     private String id; // UUID
     private String name;

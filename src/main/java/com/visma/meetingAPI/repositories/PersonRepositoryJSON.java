@@ -13,7 +13,17 @@ import java.util.List;
 
 @Repository
 public class PersonRepositoryJSON implements PersonRepository{
-    private final String FILE_PATH = "JSON_database/people.json";
+    private final String DEFAULT_FILE_PATH = "JSON_database/people.json";
+    private final String filePath;
+
+    public PersonRepositoryJSON() {
+        this.filePath = DEFAULT_FILE_PATH;
+    }
+
+    public PersonRepositoryJSON(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public Person findPersonById(String personId) {
         List<Person> people = getPeople();
@@ -29,7 +39,7 @@ public class PersonRepositoryJSON implements PersonRepository{
     public List<Person> getPeople() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             if (file.exists()) {
                 // due to Java's type erasure, simply passing List<Person>.class would not work.
                 // Instead, you create an anonymous subclass of TypeReference<List<Person>>
@@ -52,7 +62,7 @@ public class PersonRepositoryJSON implements PersonRepository{
             people.remove(personInDatabase);
             people.add(person);
         }
-        savePersonListAsJson(people, FILE_PATH);
+        savePersonListAsJson(people, filePath);
     }
 
     private void savePersonListAsJson(List<Person> personList, String filePath) {
@@ -76,7 +86,7 @@ public class PersonRepositoryJSON implements PersonRepository{
         }
         if (personToRemove != null) {
             persons.remove(personToRemove);
-            savePersonListAsJson(persons, FILE_PATH);
+            savePersonListAsJson(persons, filePath);
             return true;
         }
         return false; // Person not found
