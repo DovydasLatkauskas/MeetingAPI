@@ -50,35 +50,36 @@ public class MeetingControllerImpl implements MeetingController {
      * @param request   the current HTTP servlet request
      * @return the response entity indicating the deletion status or an error response
      */
-    @Override
     @DeleteMapping("/delete-meeting/{meetingId}")
     public ResponseEntity<String> deleteMeeting(@PathVariable String meetingId, HttpServletRequest request) {
         Meeting meeting = meetingService.findMeetingById(meetingId);
+        if (meeting == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-        final String authHeader = request.getHeader("Authorization");
-        var jwt = authHeader.substring(7);
-        String userId = jwtService.extractUsername(jwt);
-
+        String userId = getUserIdFromRequest(request);
         String responsiblePersonId = meeting.getResponsiblePerson().getId();
         if (!userId.equals(responsiblePersonId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this meeting.");
         }
 
-        if (meeting == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         if (meetingService.deleteMeeting(meetingId)) {
             return ResponseEntity.ok().build();
         }
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting not found.");
+    }
+    private String getUserIdFromRequest(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+        var jwt = authHeader.substring(7);
+        return jwtService.extractUsername(jwt);
     }
     /**
      * Adds an attendee to a meeting with the specified meeting ID.
      *
      * @param meetingId  the ID of the meeting to add an attendee to
      * @param attendeeId the ID of the attendee to add
-     * @return the response entity indicating the operation status or an error response
+     * @return the response entity indicating the operation status or a warning response
      */
     @Override
     @PostMapping("/{meetingId}/add-attendee/{attendeeId}")
@@ -97,7 +98,7 @@ public class MeetingControllerImpl implements MeetingController {
         }
 
         if (meetingService.isAttendeeInIntersectingMeeting(attendee, meeting)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Attendee is already in a conflicting meeting.");
+            return ResponseEntity.status(HttpStatus.OK).body("Warning: Attendee is already in a conflicting meeting.");
         }
 
         meetingService.addAttendee(attendee, meetingId);
