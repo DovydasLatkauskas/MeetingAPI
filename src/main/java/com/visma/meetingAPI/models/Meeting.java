@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class Meeting {
-    private String id; // UUID
+    private String id; // this is a locally generated UUID
     private String name;
     @JsonDeserialize(using = PersonDeserializer.class)
     private Person responsiblePerson;
