@@ -147,7 +147,7 @@ public class MeetingControllerImpl implements MeetingController {
      *
      * @return the response entity with the filtered list of meetings if successful, or an error response
      */
-    
+
     @Override
     @GetMapping("/get-meetings")
     public ResponseEntity<List<Meeting>> getMeetings(
