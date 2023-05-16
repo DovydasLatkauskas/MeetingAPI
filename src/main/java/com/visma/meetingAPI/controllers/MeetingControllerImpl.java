@@ -28,7 +28,7 @@ public class MeetingControllerImpl implements MeetingController {
     @Override
     @PostMapping("/create-meeting")
     public ResponseEntity<String> createMeeting(@RequestBody Meeting meeting){
-        meeting = meetingService.save(meeting); // .save returns the saved meeting with a generated id
+        meetingService.save(meeting); // .save returns the saved meeting with a generated id
         return ResponseEntity.status(HttpStatus.CREATED).body(meeting.getId());
     }
 
