@@ -38,28 +38,6 @@ public class Meeting {
     public static String generateId() {
         return UUID.randomUUID().toString();
     }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Meeting ID: ").append(id).append("\n");
-        sb.append("Name: ").append(name).append("\n");
-        sb.append("Responsible Person: ").append(responsiblePerson).append("\n");
-
-        sb.append("Attendees: ");
-        for (Person attendee : attendees) {
-            sb.append(attendee).append(", ");
-        }
-        sb.delete(sb.length() - 2, sb.length()); // Remove the last comma and space
-        sb.append("\n");
-
-        sb.append("Description: ").append(description).append("\n");
-        sb.append("Category: ").append(category).append("\n");
-        sb.append("Meeting Type: ").append(type).append("\n");
-        sb.append("Start Date: ").append(startDate).append("\n");
-        sb.append("End Date: ").append(endDate).append("\n");
-
-        return sb.toString();
-    }
 
     public String getId() {
         return id;

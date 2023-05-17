@@ -42,6 +42,14 @@ class MeetingControllerImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    Person testPerson = Person.builder()
+            .id("123456")
+            .name("John Doe")
+            .password("password123")
+            .meetings(new ArrayList<>())
+            .build();
+
+
     @Test
     void createMeeting_ReturnsCreatedResponse() {
         Meeting meeting = new Meeting();
@@ -116,13 +124,13 @@ class MeetingControllerImplTest {
 
     @Test
     void addAttendee_WithValidMeetingIdAndAttendeeId_ReturnsCreatedResponse() {
-        // Arrange
         String meetingId = "12345";
         String attendeeId = "attendee123";
         Meeting meeting = new Meeting();
-        meeting.setId(meetingId);
-        Person attendee = new Person();
+        meetingService.save(meeting);
+        Person attendee = testPerson;
         attendee.setId(attendeeId);
+        personRepository.save(attendee);
 
         when(meetingService.findMeetingById(meetingId)).thenReturn(meeting);
         when(personRepository.findPersonById(attendeeId)).thenReturn(attendee);

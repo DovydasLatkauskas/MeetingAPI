@@ -30,6 +30,7 @@ public class MeetingRepositoryJSON implements MeetingRepository {
     public List<Meeting> getMeetings() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
             File file = new File(filePath);
             if (file.exists()) {
                 // due to Java's type erasure, simply passing List<Meeting>.class would not work.

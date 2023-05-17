@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visma.meetingAPI.repositories.PersonRepository;
+import com.visma.meetingAPI.repositories.PersonRepositoryJSON;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class PersonDeserializer extends JsonDeserializer<Person> {
         ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode node = mapper.readTree(jsonParser);
         String personId = node.asText();
+        PersonRepository personRepository = new PersonRepositoryJSON();
 
         return personRepository.findPersonById(personId);
     }
